@@ -1,0 +1,7 @@
+programming 22 : 21, 22 : 21, 0
+shopping 22 : 21, 22 : 21, 0
+programming 22 : 21, 22 : 21, 0
+impatient 22 : 21, 22 : 21, 0
+coding 22 : 21, 22 : 21, 0
+dinner 22 : 21, 22 : 21, 0
+testing 22 : 21, 
