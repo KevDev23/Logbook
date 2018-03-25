@@ -1,3 +1,0 @@
-southpark 13 : 21, 13 : 25, 283
-southpark 13 : 25, 14 : 36, 4
-programming 14 : 36, 
