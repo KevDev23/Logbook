@@ -33,7 +33,7 @@ struct act{//statistics for the activity
 	int actcount;//counts occurences of activity
 	double attime;//total time spent on activity
 	std::vector<set> overset;//over all set of hours spent on activity. EX: Tracks occurrences of hours 5-8 of activity across all days.
-	std::vector<int> findrel;//finds relations for activity entry. 
+	std::vector<int> findrel;//finds relations for activity entry.
 	day week[7];
 };
 //===============================================================Function prototypes===============================================================
@@ -56,7 +56,7 @@ bool serv = true;
 	time_t curr;
 	time(&curr);
     tm *date = localtime(&curr);//converts tm to localtime
-//user input	
+//user input
 	std::string userin;//string of user input
 	std::string act;//name of activity,is this actually necessary?
 //Data for getting current day
@@ -65,7 +65,7 @@ bool serv = true;
 	std::string daynum[]= {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};//Couldn't trick a string to get int, so this line happened
 	//may be getting dates wrong becuase 0 to n, whereas dates start at 1, added "0" to see if that would fix it.
 	std:: string page;//will be current page
-//For files	
+//For files
 	std::ofstream bkpage;//bkpage > bookpageopens a stream, go over this in detail, memory is sketchy
 	std::ofstream mstfile;//for reading file names later
 //getting date/pagename (Not sure if this is even necessary)
@@ -84,40 +84,40 @@ while(serv)
 	std::cout << "Quit(5)\n";
 
 	std::cin >> userin;
-num = atoi(userin.c_str());	
+num = atoi(userin.c_str());
 	switch(num)
 	{
 			case 1:
 			nday(date,wday,months,daynum,page,bkpage,mstfile,userin);
 			break;
-			
+
 			case 2:
 			write(bkpage,page,userin,date);
 			break;
-			
+
 			case 3:
 			std::cout << "Writing end time to last activity...\n";
 			eday(bkpage,date,page);
 			break;
-			
+
 			case 4:
 			std::cout << "Getting statistics...\n";
 			stat(data,temp,wday);
 			//result(data,wday);
 			break;
-			
+
 			break;
 			case 5:
 			std::cout << "Quiting...goodbye!\n";
 			serv = false;
 			break;
-			
+
 			default:
 			std::cout << "ERROR, refer to menu options numerically(example 4 means save and quit)\n";
 			break;
 	}
 }
-	
+
 
 return 0;
 }
@@ -151,7 +151,7 @@ std::ifstream reader;//checks size of file
 	/*
 	if(errnd(mstfile,page))
 	{
-	  //call write?  
+	  //call write?
 	}
 	*/
 time(&currs);//gets time
@@ -192,7 +192,7 @@ time(&currs);
 bkpage.open(page.c_str(),std::ofstream::app);
 
 totaltime = difftime(currs,mktime(date));
-date = localtime(&currs); 
+date = localtime(&currs);
 bkpage << date->tm_hour << " " << date->tm_min << " " << std::setprecision(3) << totaltime/60/60 << "\n";
 bkpage.close();
 return;
@@ -221,7 +221,7 @@ fclose(icheck);
 		std::cout << "Error, cannot write to a page made yesterday or already man\n";
 		return true;
 	}
-	
+
 return false;
 }
 /*
@@ -265,11 +265,11 @@ std::string key;//key for map(which is the activity name)
 std::string kday;//day extracted from key
 int index;//for the index nums in arrays
 	fmreader = fopen("mstfile.txt","r");
-	
+
 		while(fscanf(fmreader,"%s",mstEntry.c_str()) != EOF )
 		{
 			bkreader = fopen(mstEntry.c_str(),"r");//open book pages(text files listed in the master file)
-			
+
 					while(fscanf(bkreader,"%s %d %d %d %d %d",key.c_str(),&shour,&smin,&ehour,&emin,&temp.attime) != EOF)
 					{
 						//build relation and find the day the activity occured on
@@ -286,7 +286,7 @@ int index;//for the index nums in arrays
 								if(kday.compare(0,2,wday[i])==0)//strcmp(kday.c_str(),wday[i]) == 0)
 									index = i;
 							}
-						//init new map entry, or append map entry	
+						//init new map entry, or append map entry
 						if(iter == data.end())//if there is no key then add it to the map, initialize data for new activity
 						{	//set init values for the act overall, attime(activity total time) is read in the nested while loop
 							semp.socc = 1;
@@ -314,7 +314,7 @@ int index;//for the index nums in arrays
 									semp.rel = temp.findrel;
 									data[key].overset.insert(data[key].overset.end(),semp);
 							     }
-							  //appending day activity occurred on					
+							  //appending day activity occurred on
 							  data[key].week[index].dttime+=temp.attime;
 							  data[key].week[index].docc++;
 								imp = finds(data[key].week[index].dset,temp.findrel);
@@ -322,18 +322,18 @@ int index;//for the index nums in arrays
 							  {
 								data[key].week[index].dset[imp].socc++;
 							  }
-							  else{//insert new relation	
+							  else{//insert new relation
 									semp.socc = 1;
 									semp.rel = temp.findrel;
 									data[key].week[index].dset.insert(data[key].week[index].dset.end(),semp);
 								  }
-							  
+
 							}
 					}
 				fclose(bkreader);
 		}
 	fclose(fmreader);
-	
+
 return;
 }
 
@@ -356,10 +356,10 @@ std::ofstream res;
 	 std::cin >> results;
 	 std::cout << "\n";
 	results += ".txt";
-	
+
 	res.open(results.c_str());
 	//fptr = fopen(results.c_str(),"w");
-	
+
 		for(std::map<std::string,act>::iterator k = data.begin(); k != data.end(); k++)//maybe ++k
 		{
 			res << "Activity: " << k->first << "\n";
@@ -373,7 +373,7 @@ std::ofstream res;
 					largest = data[k->first].overset[i].socc;
 					lindex = i;
 				}
-				
+
 				if(data[k->first].overset[i].socc <= smallest)
 				{
 					smallest = data[k->first].overset[i].socc;
@@ -398,7 +398,7 @@ std::ofstream res;
 												{
 													res << wday[i] << ": times done:" << data[k->first].week[i].docc << " Total hours on this day:" << data[k->first].week[i].dttime << " ";
 													res << "Average hours: " << std::setprecision(3) << data[k->first].week[i].dttime/data[k->first].week[i].docc << " ";
-												
+
 													for(int j = 0; j < data[k->first].week[i].dset.size(); j++)//finds max and min data values. For the most often and least often set of hours
 													{
 														if(data[k->first].week[i].dset[j].socc >= largest)
@@ -406,9 +406,9 @@ std::ofstream res;
 															largest = data[k->first].week[i].dset[j].socc;
 															lindex = j;
 														}
-														
+
 													}
-													
+
 													res << "Most often hours: ";
 													for(int x  = 0; x < data[k->first].week[i].dset[lindex].rel.size(); x++)
 													{
@@ -417,10 +417,10 @@ std::ofstream res;
 													res << "\n-------------------------------------------------------\n";
 												}
 											}
-			
+
 			res << "==============================================================================================================================================\n";
 		}
 	res.close();
-		
+
 return;
 }
